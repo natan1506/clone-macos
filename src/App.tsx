@@ -1,26 +1,28 @@
 
 import DraggableCore from 'react-draggable';
-import { Code, Folder, Gear } from 'phosphor-react'
+import { Code, Folder, Gear, Moon, Sun } from 'phosphor-react'
 import { useState } from 'react'
 import { Archive } from './components/Archive'
 import { CodeEditor } from './components/CodeEditor'
 import { Tooltip } from './components/Tooltip'
 
 import './styles/main.css'
+import { Header } from './components/Header';
 
 function App() {
   const [openModalFolder, setOpenModalFolder] = useState(false)
   const [openModalCodeEditor, setOpenModalCodeEditor] = useState(false)
+  const [theme, setTheme] = useState('light')
 
   const handleDarkMode = () => {
     if (localStorage.theme === 'dark'){
       document.documentElement.classList.add('dark')
       localStorage.setItem('theme', 'light')
-      // setThemeActived('light')
+      setTheme('light')
     } else {
       document.documentElement.classList.remove('dark')
       localStorage.setItem('theme', 'dark')
-      // setThemeActived('dark')
+      setTheme('dark')
     }
   }
 
@@ -28,6 +30,8 @@ function App() {
     <div 
       className="transition-all min-h-screen bg-[#121214] bg-cover dark:bg-montereyDark bg-montereyLight bg-no-repeat flex flex-col justify-between"
     >
+      <Header />
+
       <div 
         className='max-h-screen max-w-screen' 
       >
@@ -75,10 +79,14 @@ function App() {
               <div className='h-1 w-1 rounded-full bg-gray-500'></div>
             )}
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center transition-all">
             <Tooltip title="Dark Mode">
               <button onClick={handleDarkMode}>
-                <Gear size={50} weight="thin" />
+                {theme === 'light' ? (
+                  <Sun size={50} weight='thin' />
+                ) : (
+                  <Moon size={50} weight="thin"/>
+                )}
               </button>
             </Tooltip>
           </div>
